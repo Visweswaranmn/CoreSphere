@@ -1,5 +1,6 @@
 import type { ApiFieldError, ApiResponse } from '@coresphere/shared';
 import { env } from '@/config/env';
+import { getAccessToken, runRefresh } from '@/lib/authToken';
 
 /** Error thrown when the API responds with a failure envelope or is unreachable. */
 export class ApiClientError extends Error {
@@ -18,10 +19,13 @@ export class ApiClientError extends Error {
 
 interface RequestOptions extends Omit<RequestInit, 'body'> {
   body?: unknown;
+  /** Internal: prevents infinite refresh/retry loops. */
+  _isRetry?: boolean;
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const { body, headers, ...rest } = options;
+  const { body, headers, _isRetry, ...rest } = options;
+  const token = getAccessToken();
 
   let response: Response;
   try {
@@ -31,12 +35,21 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
       headers: {
         Accept: 'application/json',
         ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...headers,
       },
       ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
     });
   } catch {
     throw new ApiClientError('Unable to reach the server', 'NETWORK_ERROR', 0);
+  }
+
+  // Access token likely expired: refresh once and retry the original request.
+  if (response.status === 401 && token && !_isRetry) {
+    const refreshed = await runRefresh();
+    if (refreshed) {
+      return request<T>(path, { ...options, _isRetry: true });
+    }
   }
 
   let payload: ApiResponse<T> | null = null;
