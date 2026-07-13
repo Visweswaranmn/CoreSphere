@@ -1,0 +1,33 @@
+# Optional local MongoDB for developers who prefer not to use MongoDB Atlas.
+# The application defaults to the MONGODB_URI in server/.env (Atlas or local).
+# Start with:  docker compose up -d
+services:
+  mongo:
+    image: mongo:7
+    container_name: coresphere-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: coresphere
+      MONGO_INITDB_ROOT_PASSWORD: coresphere
+      MONGO_INITDB_DATABASE: coresphere_erp
+    volumes:
+      - mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: coresphere-mongo-express
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: coresphere
+      ME_CONFIG_MONGODB_ADMINPASSWORD: coresphere
+      ME_CONFIG_MONGODB_URL: mongodb://coresphere:coresphere@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
