@@ -26,6 +26,12 @@ const AttendancePage = lazy(() =>
 const LeavePage = lazy(() =>
   import('@/features/leave/LeavePage').then((m) => ({ default: m.LeavePage })),
 );
+const PayrollPage = lazy(() =>
+  import('@/features/payroll/PayrollPage').then((m) => ({ default: m.PayrollPage })),
+);
+const RunDetailPage = lazy(() =>
+  import('@/features/payroll/RunDetailPage').then((m) => ({ default: m.RunDetailPage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -50,6 +56,12 @@ export default function App() {
             <Route path="/hr/employees/:id" element={<EmployeeDetailPage />} />
             <Route path="/hr/attendance" element={<AttendancePage />} />
             <Route path="/hr/leave" element={<LeavePage />} />
+          </Route>
+
+          {/* Payroll (Phase 5) — HR Managers and Finance Managers. */}
+          <Route element={<RoleRoute allow={[Role.HrManager, Role.FinanceManager]} />}>
+            <Route path="/hr/payroll" element={<PayrollPage />} />
+            <Route path="/hr/payroll/runs/:id" element={<RunDetailPage />} />
           </Route>
 
           {modulePages.map((page) => {
