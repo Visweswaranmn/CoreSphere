@@ -56,6 +56,12 @@ const ItemDetailPage = lazy(() =>
 const AssetsPage = lazy(() =>
   import('@/features/inventory/AssetsPage').then((m) => ({ default: m.AssetsPage })),
 );
+const CustomersPage = lazy(() =>
+  import('@/features/crm/CustomersPage').then((m) => ({ default: m.CustomersPage })),
+);
+const PipelinePage = lazy(() =>
+  import('@/features/sales/PipelinePage').then((m) => ({ default: m.PipelinePage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -106,6 +112,12 @@ export default function App() {
             <Route path="/inventory" element={<InventoryItemsPage />} />
             <Route path="/inventory/items/:id" element={<ItemDetailPage />} />
             <Route path="/assets" element={<AssetsPage />} />
+          </Route>
+
+          {/* CRM & Sales (Phase 9) — Sales Managers. */}
+          <Route element={<RoleRoute allow={[Role.SalesManager]} />}>
+            <Route path="/crm" element={<CustomersPage />} />
+            <Route path="/sales" element={<PipelinePage />} />
           </Route>
 
           {modulePages.map((page) => {
