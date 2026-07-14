@@ -6,7 +6,6 @@ import {
   Contact,
   FileBarChart,
   FileText,
-  FolderKanban,
   Laptop,
   Settings,
   ShoppingCart,
@@ -27,7 +26,6 @@ export interface ModulePage {
 
 /** Not-yet-built module routes. Kept in sync with the sidebar navigation. */
 export const modulePages: ModulePage[] = [
-  { path: '/projects', title: 'Projects', description: 'Project lifecycle, tasks, and teams.', icon: FolderKanban, phase: 'Phase 6', roles: [Roles.ProjectManager] },
   { path: '/procurement', title: 'Procurement', description: 'Purchase requests and approval workflows.', icon: ShoppingCart, phase: 'Phase 7', roles: [Roles.ProcurementManager] },
   { path: '/vendors', title: 'Vendors', description: 'Vendor directory and approval.', icon: Truck, phase: 'Phase 7', roles: [Roles.ProcurementManager] },
   { path: '/inventory', title: 'Inventory', description: 'Stock levels, movements, and warehouses.', icon: Boxes, phase: 'Phase 8', roles: [Roles.InventoryManager] },

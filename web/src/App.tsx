@@ -32,6 +32,12 @@ const PayrollPage = lazy(() =>
 const RunDetailPage = lazy(() =>
   import('@/features/payroll/RunDetailPage').then((m) => ({ default: m.RunDetailPage })),
 );
+const ProjectsPage = lazy(() =>
+  import('@/features/projects/ProjectsPage').then((m) => ({ default: m.ProjectsPage })),
+);
+const ProjectDetailPage = lazy(() =>
+  import('@/features/projects/ProjectDetailPage').then((m) => ({ default: m.ProjectDetailPage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -62,6 +68,12 @@ export default function App() {
           <Route element={<RoleRoute allow={[Role.HrManager, Role.FinanceManager]} />}>
             <Route path="/hr/payroll" element={<PayrollPage />} />
             <Route path="/hr/payroll/runs/:id" element={<RunDetailPage />} />
+          </Route>
+
+          {/* Projects (Phase 6) — Project Managers. */}
+          <Route element={<RoleRoute allow={[Role.ProjectManager]} />}>
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:id" element={<ProjectDetailPage />} />
           </Route>
 
           {modulePages.map((page) => {
