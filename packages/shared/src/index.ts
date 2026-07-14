@@ -8,3 +8,4 @@ export * from './domain/attendance';
 export * from './domain/leave';
 export * from './domain/payroll';
 export * from './domain/project';
+export * from './domain/procurement';

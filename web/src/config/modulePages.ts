@@ -8,9 +8,7 @@ import {
   FileText,
   Laptop,
   Settings,
-  ShoppingCart,
   TrendingUp,
-  Truck,
   type LucideIcon,
 } from 'lucide-react';
 import { type Role, Role as Roles } from '@coresphere/shared';
@@ -26,8 +24,6 @@ export interface ModulePage {
 
 /** Not-yet-built module routes. Kept in sync with the sidebar navigation. */
 export const modulePages: ModulePage[] = [
-  { path: '/procurement', title: 'Procurement', description: 'Purchase requests and approval workflows.', icon: ShoppingCart, phase: 'Phase 7', roles: [Roles.ProcurementManager] },
-  { path: '/vendors', title: 'Vendors', description: 'Vendor directory and approval.', icon: Truck, phase: 'Phase 7', roles: [Roles.ProcurementManager] },
   { path: '/inventory', title: 'Inventory', description: 'Stock levels, movements, and warehouses.', icon: Boxes, phase: 'Phase 8', roles: [Roles.InventoryManager] },
   { path: '/assets', title: 'Asset Management', description: 'Company asset register and assignments.', icon: Laptop, phase: 'Phase 8', roles: [Roles.InventoryManager] },
   { path: '/crm', title: 'CRM', description: 'Customer accounts and relationships.', icon: Contact, phase: 'Phase 9', roles: [Roles.SalesManager] },

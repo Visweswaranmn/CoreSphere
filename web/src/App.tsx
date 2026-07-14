@@ -38,6 +38,15 @@ const ProjectsPage = lazy(() =>
 const ProjectDetailPage = lazy(() =>
   import('@/features/projects/ProjectDetailPage').then((m) => ({ default: m.ProjectDetailPage })),
 );
+const VendorsPage = lazy(() =>
+  import('@/features/procurement/VendorsPage').then((m) => ({ default: m.VendorsPage })),
+);
+const OrdersPage = lazy(() =>
+  import('@/features/procurement/OrdersPage').then((m) => ({ default: m.OrdersPage })),
+);
+const OrderDetailPage = lazy(() =>
+  import('@/features/procurement/OrderDetailPage').then((m) => ({ default: m.OrderDetailPage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -74,6 +83,13 @@ export default function App() {
           <Route element={<RoleRoute allow={[Role.ProjectManager]} />}>
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/projects/:id" element={<ProjectDetailPage />} />
+          </Route>
+
+          {/* Procurement & Vendors (Phase 7) — Procurement Managers. */}
+          <Route element={<RoleRoute allow={[Role.ProcurementManager]} />}>
+            <Route path="/vendors" element={<VendorsPage />} />
+            <Route path="/procurement" element={<OrdersPage />} />
+            <Route path="/procurement/orders/:id" element={<OrderDetailPage />} />
           </Route>
 
           {modulePages.map((page) => {
