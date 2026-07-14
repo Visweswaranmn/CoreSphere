@@ -9,3 +9,5 @@ export * from './domain/leave';
 export * from './domain/payroll';
 export * from './domain/project';
 export * from './domain/procurement';
+export * from './domain/inventory';
+export * from './domain/asset';

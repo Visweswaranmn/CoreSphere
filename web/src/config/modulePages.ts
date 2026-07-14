@@ -2,11 +2,9 @@ import {
   BarChart3,
   Banknote,
   Bell,
-  Boxes,
   Contact,
   FileBarChart,
   FileText,
-  Laptop,
   Settings,
   TrendingUp,
   type LucideIcon,
@@ -24,8 +22,6 @@ export interface ModulePage {
 
 /** Not-yet-built module routes. Kept in sync with the sidebar navigation. */
 export const modulePages: ModulePage[] = [
-  { path: '/inventory', title: 'Inventory', description: 'Stock levels, movements, and warehouses.', icon: Boxes, phase: 'Phase 8', roles: [Roles.InventoryManager] },
-  { path: '/assets', title: 'Asset Management', description: 'Company asset register and assignments.', icon: Laptop, phase: 'Phase 8', roles: [Roles.InventoryManager] },
   { path: '/crm', title: 'CRM', description: 'Customer accounts and relationships.', icon: Contact, phase: 'Phase 9', roles: [Roles.SalesManager] },
   { path: '/sales', title: 'Sales', description: 'Sales pipeline and orders.', icon: TrendingUp, phase: 'Phase 9', roles: [Roles.SalesManager] },
   { path: '/finance', title: 'Finance', description: 'Accounts, expenses, and budgets.', icon: Banknote, phase: 'Phase 10', roles: [Roles.FinanceManager] },

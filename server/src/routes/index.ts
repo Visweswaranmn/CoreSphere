@@ -7,6 +7,7 @@ import { leaveRouter } from '../modules/leave/leave.routes';
 import { payrollRouter } from '../modules/payroll/payroll.routes';
 import { projectRouter } from '../modules/projects/project.routes';
 import { procurementRouter } from '../modules/procurement/procurement.routes';
+import { inventoryRouter } from '../modules/inventory/inventory.routes';
 
 /** Root API router. Feature modules mount their sub-routers here. */
 export const apiRouter: Router = Router();
@@ -19,3 +20,4 @@ apiRouter.use('/hr/leave', leaveRouter);
 apiRouter.use('/hr/payroll', payrollRouter);
 apiRouter.use('/projects', projectRouter);
 apiRouter.use('/procurement', procurementRouter);
+apiRouter.use('/inventory', inventoryRouter);

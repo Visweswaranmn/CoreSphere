@@ -47,6 +47,15 @@ const OrdersPage = lazy(() =>
 const OrderDetailPage = lazy(() =>
   import('@/features/procurement/OrderDetailPage').then((m) => ({ default: m.OrderDetailPage })),
 );
+const InventoryItemsPage = lazy(() =>
+  import('@/features/inventory/InventoryItemsPage').then((m) => ({ default: m.InventoryItemsPage })),
+);
+const ItemDetailPage = lazy(() =>
+  import('@/features/inventory/ItemDetailPage').then((m) => ({ default: m.ItemDetailPage })),
+);
+const AssetsPage = lazy(() =>
+  import('@/features/inventory/AssetsPage').then((m) => ({ default: m.AssetsPage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -90,6 +99,13 @@ export default function App() {
             <Route path="/vendors" element={<VendorsPage />} />
             <Route path="/procurement" element={<OrdersPage />} />
             <Route path="/procurement/orders/:id" element={<OrderDetailPage />} />
+          </Route>
+
+          {/* Inventory & Assets (Phase 8) — Inventory Managers. */}
+          <Route element={<RoleRoute allow={[Role.InventoryManager]} />}>
+            <Route path="/inventory" element={<InventoryItemsPage />} />
+            <Route path="/inventory/items/:id" element={<ItemDetailPage />} />
+            <Route path="/assets" element={<AssetsPage />} />
           </Route>
 
           {modulePages.map((page) => {
