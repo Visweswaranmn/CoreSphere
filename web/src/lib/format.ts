@@ -25,3 +25,16 @@ export function formatCompactCurrency(value: number): string {
 export function formatNumber(value: number): string {
   return numberFormatter.format(value);
 }
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+/** Formats an ISO date/date-time string as e.g. "Mar 1, 2025" (empty if invalid). */
+export function formatDate(value?: string): string {
+  if (!value) return '—';
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? '—' : dateFormatter.format(date);
+}

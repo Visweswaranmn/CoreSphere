@@ -2,3 +2,7 @@ export * from './types/api';
 export * from './types/auth';
 export * from './types/health';
 export * from './rbac/roles';
+export * from './domain/organization';
+export * from './domain/employee';
+export * from './domain/attendance';
+export * from './domain/leave';

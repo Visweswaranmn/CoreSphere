@@ -3,8 +3,6 @@ import {
   Banknote,
   Bell,
   Boxes,
-  CalendarClock,
-  CalendarX,
   Contact,
   FileBarChart,
   FileText,
@@ -14,7 +12,6 @@ import {
   ShoppingCart,
   TrendingUp,
   Truck,
-  Users,
   Wallet,
   type LucideIcon,
 } from 'lucide-react';
@@ -31,9 +28,6 @@ export interface ModulePage {
 
 /** Not-yet-built module routes. Kept in sync with the sidebar navigation. */
 export const modulePages: ModulePage[] = [
-  { path: '/hr/employees', title: 'Employees', description: 'Directory, profiles, and onboarding.', icon: Users, phase: 'Phase 4', roles: [Roles.HrManager] },
-  { path: '/hr/attendance', title: 'Attendance', description: 'Time tracking and attendance records.', icon: CalendarClock, phase: 'Phase 4', roles: [Roles.HrManager] },
-  { path: '/hr/leave', title: 'Leave Management', description: 'Leave requests, balances, and approvals.', icon: CalendarX, phase: 'Phase 4', roles: [Roles.HrManager] },
   { path: '/hr/payroll', title: 'Payroll', description: 'Salary structures, runs, and payslips.', icon: Wallet, phase: 'Phase 5', roles: [Roles.HrManager, Roles.FinanceManager] },
   { path: '/projects', title: 'Projects', description: 'Project lifecycle, tasks, and teams.', icon: FolderKanban, phase: 'Phase 6', roles: [Roles.ProjectManager] },
   { path: '/procurement', title: 'Procurement', description: 'Purchase requests and approval workflows.', icon: ShoppingCart, phase: 'Phase 7', roles: [Roles.ProcurementManager] },
