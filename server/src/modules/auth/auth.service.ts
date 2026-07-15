@@ -1,7 +1,8 @@
-import type { AuthResult, AuthUser, Role } from '@coresphere/shared';
+import type { AuthResult, AuthUser } from '@coresphere/shared';
 import { userRepository } from '../users/user.repository';
+import { userService } from '../users/user.service';
 import { toAuthUser, type UserHydrated } from '../users/user.model';
-import { hashPassword, verifyPassword } from '../../utils/password';
+import { verifyPassword } from '../../utils/password';
 import { signAccessToken, signRefreshToken } from '../../utils/jwt';
 import { ApiError } from '../../utils/ApiError';
 import type { RegisterInput } from './auth.schemas';
@@ -40,22 +41,8 @@ export const authService = {
   },
 
   /** Provisions a new user account (Super Admin action). Does not sign them in. */
-  async register(input: RegisterInput): Promise<AuthUser> {
-    if (await userRepository.existsByEmail(input.email)) {
-      throw ApiError.conflict('A user with this email already exists');
-    }
-
-    const passwordHash = await hashPassword(input.password);
-    const user = await userRepository.create({
-      firstName: input.firstName,
-      lastName: input.lastName,
-      email: input.email,
-      passwordHash,
-      role: input.role as Role,
-      status: 'active',
-    });
-
-    return toAuthUser(user);
+  register(input: RegisterInput): Promise<AuthUser> {
+    return userService.create(input);
   },
 
   /** Rotates the session: validates the refresh token and issues fresh tokens. */

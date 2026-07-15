@@ -15,6 +15,8 @@ import { documentRouter } from '../modules/documents/document.routes';
 import { notificationRouter } from '../modules/notifications/notification.routes';
 import { analyticsRouter } from '../modules/analytics/analytics.routes';
 import { reportRouter } from '../modules/reports/report.routes';
+import { settingsRouter } from '../modules/settings/settings.routes';
+import { userRouter } from '../modules/users/user.routes';
 
 /** Root API router. Feature modules mount their sub-routers here. */
 export const apiRouter: Router = Router();
@@ -35,3 +37,5 @@ apiRouter.use('/documents', documentRouter);
 apiRouter.use('/notifications', notificationRouter);
 apiRouter.use('/analytics', analyticsRouter);
 apiRouter.use('/reports', reportRouter);
+apiRouter.use('/settings', settingsRouter);
+apiRouter.use('/users', userRouter);

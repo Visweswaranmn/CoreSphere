@@ -7,8 +7,6 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
 import { RoleRoute } from '@/routes/RoleRoute';
 import { LoginPage } from '@/features/auth/LoginPage';
-import { ModulePlaceholder } from '@/pages/ModulePlaceholder';
-import { modulePages } from '@/config/modulePages';
 
 // Code-split heavy feature areas so they load on demand.
 const DashboardPage = lazy(() =>
@@ -79,6 +77,9 @@ const AnalyticsPage = lazy(() =>
 );
 const ReportsPage = lazy(() =>
   import('@/features/reports/ReportsPage').then((m) => ({ default: m.ReportsPage })),
+);
+const SettingsPage = lazy(() =>
+  import('@/features/settings/SettingsPage').then((m) => ({ default: m.SettingsPage })),
 );
 
 /** Redirects already-authenticated users away from the login screen. */
@@ -152,24 +153,10 @@ export default function App() {
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/reports" element={<ReportsPage />} />
 
-          {modulePages.map((page) => {
-            const element = (
-              <ModulePlaceholder
-                title={page.title}
-                description={page.description}
-                icon={page.icon}
-                phase={page.phase}
-              />
-            );
-
-            return page.roles.length > 0 ? (
-              <Route key={page.path} element={<RoleRoute allow={page.roles} />}>
-                <Route path={page.path} element={element} />
-              </Route>
-            ) : (
-              <Route key={page.path} path={page.path} element={element} />
-            );
-          })}
+          {/* System Settings (Phase 13) — Super Admin only. */}
+          <Route element={<RoleRoute allow={[Role.SuperAdmin]} />}>
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
         </Route>
       </Route>
 

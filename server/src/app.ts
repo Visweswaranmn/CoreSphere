@@ -7,6 +7,7 @@ import { pinoHttp } from 'pino-http';
 import { env } from './config/env';
 import { logger } from './config/logger';
 import { API_PREFIX } from './config/constants';
+import { apiLimiter } from './config/rateLimit';
 import { apiRouter } from './routes';
 import { notFound } from './middleware/notFound';
 import { errorHandler } from './middleware/errorHandler';
@@ -30,8 +31,11 @@ export function createApp(): Express {
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
 
-  // API routes.
-  app.use(API_PREFIX, apiRouter);
+  // Health check must bypass rate limiting (used by uptime probes).
+  app.set('trust proxy', 1);
+
+  // API routes (behind the broad rate limiter).
+  app.use(API_PREFIX, apiLimiter, apiRouter);
 
   // Fallbacks.
   app.use(notFound);
