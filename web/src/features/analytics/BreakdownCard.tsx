@@ -2,7 +2,7 @@ import type { NamedValue } from '@coresphere/shared';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { formatCurrency, formatNumber } from '@/lib/format';
 
-const COLORS = ['#4f46e5', '#0ea5e9', '#22c55e', '#f59e0b', '#ec4899', '#8b5cf6', '#14b8a6', '#ef4444', '#64748b'];
+const COLORS = ['#78a4cb', '#e0a02e', '#95bdd7', '#5e8cb8', '#22c55e', '#8b5cf6', '#14b8a6', '#ef4444', '#64748b'];
 
 export function BreakdownCard({
   title,

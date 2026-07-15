@@ -19,7 +19,7 @@ import { CategoryChart } from '@/features/dashboard/CategoryChart';
 import { ActivityFeed } from '@/features/dashboard/ActivityFeed';
 import { useOverview } from '@/features/analytics/analyticsHooks';
 
-const CATEGORY_COLORS = ['#4f46e5', '#0ea5e9', '#22c55e', '#f59e0b', '#ec4899', '#8b5cf6', '#14b8a6', '#ef4444'];
+const CATEGORY_COLORS = ['#78a4cb', '#e0a02e', '#95bdd7', '#5e8cb8', '#22c55e', '#8b5cf6', '#14b8a6', '#ef4444'];
 
 function greeting(): string {
   const hour = new Date().getHours();

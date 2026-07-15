@@ -21,6 +21,7 @@
   --color-primary: var(--app-primary);
   --color-primary-fg: var(--app-primary-fg);
   --color-primary-hover: var(--app-primary-hover);
+  --color-accent: var(--app-accent);
 
   --color-success: var(--app-success);
   --color-warning: var(--app-warning);
@@ -33,41 +34,50 @@
   --radius-lg: 0.75rem;
 }
 
+/*
+ * Brand palette (Color Hunt): warm accent + cool blues.
+ *   #F9E8A2 (accent) · #B4E1EB · #95BDD7 · #78A4CB (primary)
+ * Status tones (success/warning/danger) stay semantic for legibility.
+ */
 :root {
-  --app-background: #f6f7f9;
-  --app-surface: #ffffff;
-  --app-surface-muted: #f1f5f9;
-  --app-foreground: #0f172a;
-  --app-muted-fg: #64748b;
-  --app-border: #e2e8f0;
-  --app-input: #e2e8f0;
-  --app-ring: #6366f1;
+  --app-accent: #f9e8a2;
 
-  --app-primary: #4f46e5;
+  --app-background: #f0f6fa;
+  --app-surface: #ffffff;
+  --app-surface-muted: #e6f1f6;
+  --app-foreground: #22384a;
+  --app-muted-fg: #5b7a8c;
+  --app-border: #d5e4ee;
+  --app-input: #cbdce8;
+  --app-ring: #78a4cb;
+
+  --app-primary: #78a4cb;
   --app-primary-fg: #ffffff;
-  --app-primary-hover: #4338ca;
+  --app-primary-hover: #5e8cb8;
 
   --app-success: #16a34a;
-  --app-warning: #d97706;
+  --app-warning: #b8860b;
   --app-danger: #dc2626;
 }
 
 .dark {
-  --app-background: #0b1120;
-  --app-surface: #111827;
-  --app-surface-muted: #1e293b;
-  --app-foreground: #e2e8f0;
-  --app-muted-fg: #94a3b8;
-  --app-border: #1f2a3c;
-  --app-input: #263243;
-  --app-ring: #818cf8;
+  --app-accent: #f9e8a2;
 
-  --app-primary: #6366f1;
-  --app-primary-fg: #ffffff;
-  --app-primary-hover: #4f46e5;
+  --app-background: #0e1b26;
+  --app-surface: #16242f;
+  --app-surface-muted: #1f3140;
+  --app-foreground: #e4edf2;
+  --app-muted-fg: #92aaba;
+  --app-border: #26394a;
+  --app-input: #2c4253;
+  --app-ring: #95bdd7;
+
+  --app-primary: #95bdd7;
+  --app-primary-fg: #0e1b26;
+  --app-primary-hover: #a9cadf;
 
   --app-success: #22c55e;
-  --app-warning: #f59e0b;
+  --app-warning: #eab308;
   --app-danger: #ef4444;
 }
 

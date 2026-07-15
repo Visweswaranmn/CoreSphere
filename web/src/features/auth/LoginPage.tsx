@@ -45,8 +45,9 @@ export function LoginPage() {
 
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
-          <span className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-fg">
+          <span className="relative mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-fg">
             <Boxes className="h-6 w-6" />
+            <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-accent ring-2 ring-background" />
           </span>
           <h1 className="text-xl font-semibold text-foreground">Sign in to CoreSphere</h1>
           <p className="mt-1 text-sm text-muted-fg">Enterprise Resource Planning</p>

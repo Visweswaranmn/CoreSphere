@@ -11,8 +11,8 @@ import {
 import type { MonthlyPoint } from '@coresphere/shared';
 import { formatCompactCurrency, formatCurrency } from '@/lib/format';
 
-const REVENUE_COLOR = '#4f46e5';
-const EXPENSE_COLOR = '#f59e0b';
+const REVENUE_COLOR = '#78a4cb';
+const EXPENSE_COLOR = '#e0a02e';
 
 function ChartTooltip({ active, payload, label }: TooltipProps<number, string>) {
   if (!active || !payload?.length) return null;
