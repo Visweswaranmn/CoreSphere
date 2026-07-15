@@ -1,0 +1,43 @@
+# Render Blueprint for the CoreSphere ERP API.
+# In Render: New → Blueprint → connect this repo. MongoDB is external (Atlas).
+services:
+  - type: web
+    name: coresphere-api
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: npm ci && npm run build -w server
+    startCommand: node server/dist/server.js
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "20"
+      # Paste your MongoDB Atlas SRV connection string in the Render dashboard.
+      - key: MONGODB_URI
+        sync: false
+      # Set to your deployed web origin, e.g. https://coresphere-erp.vercel.app
+      - key: CORS_ORIGINS
+        sync: false
+      # Web (Vercel) and API (Render) are different sites → cross-site cookies.
+      - key: CROSS_SITE_COOKIES
+        value: "true"
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_EXPIRES_IN
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      - key: REFRESH_COOKIE_DAYS
+        value: "7"
+    # Uploaded documents live on disk. Render's free filesystem is ephemeral;
+    # for durable uploads attach a persistent disk (paid) or swap to object
+    # storage:
+    # disk:
+    #   name: uploads
+    #   mountPath: /opt/render/project/src/server/uploads
+    #   sizeGB: 1

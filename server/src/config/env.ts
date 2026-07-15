@@ -29,6 +29,15 @@ const envSchema = z
     JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
     /** Refresh cookie lifetime in days; must match JWT_REFRESH_EXPIRES_IN. */
     REFRESH_COOKIE_DAYS: z.coerce.number().int().positive().default(7),
+    /**
+     * Set to `true` when the web app and API are on different sites (e.g. web on
+     * Vercel, API on Render). Emits SameSite=None; Secure cookies so the refresh
+     * cookie is sent cross-site. Leave false for same-site deployments.
+     */
+    CROSS_SITE_COOKIES: z
+      .enum(['true', 'false'])
+      .default('false')
+      .transform((v) => v === 'true'),
   })
   .superRefine((value, ctx) => {
     // In production, real secrets are mandatory — never ship the dev placeholder.

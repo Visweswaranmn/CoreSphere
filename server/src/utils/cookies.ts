@@ -3,11 +3,18 @@ import { env, isProduction } from '../config/env';
 
 export const REFRESH_COOKIE_NAME = 'coresphere_rt';
 
+function sameSitePolicy(): CookieOptions['sameSite'] {
+  if (!isProduction) return 'lax';
+  // Cross-site (e.g. Vercel web + Render API) requires SameSite=None + Secure.
+  return env.CROSS_SITE_COOKIES ? 'none' : 'strict';
+}
+
 function baseCookieOptions(): CookieOptions {
   return {
     httpOnly: true,
+    // SameSite=None cookies must be Secure; production is always HTTPS.
     secure: isProduction,
-    sameSite: isProduction ? 'strict' : 'lax',
+    sameSite: sameSitePolicy(),
     path: '/api/v1/auth',
   };
 }

@@ -3,6 +3,50 @@
 This guide covers deploying CoreSphere ERP to production. The app is a monorepo with
 two deployable artifacts: the **API** (`server/`) and the **web SPA** (`web/`).
 
+## Quick path: Vercel (web) + Render (API) + MongoDB Atlas
+
+This repo ships a `render.yaml` blueprint and a `vercel.json` so you can deploy
+the split-domain way with minimal config. You'll do the account/auth steps; the
+config files handle the rest.
+
+### A. MongoDB Atlas
+1. Create a free cluster, a DB user, and allow-list `0.0.0.0/0` (or Render's IPs).
+2. Copy the SRV connection string.
+
+### B. Push this repo to GitHub
+Render and Vercel deploy from a Git repo. Create a repo and push `main`.
+
+### C. API on Render
+1. **New → Blueprint**, connect the repo. Render reads `render.yaml` and creates
+   the `coresphere-api` web service (build `npm ci && npm run build -w server`,
+   start `node server/dist/server.js`, health check `/api/v1/health`).
+2. In the service's **Environment**, set the two `sync: false` vars:
+   - `MONGODB_URI` — your Atlas string
+   - `CORS_ORIGINS` — your Vercel URL (fill in after step D, then redeploy)
+   - The JWT secrets are auto-generated; `CROSS_SITE_COOKIES` is preset to `true`.
+3. Note the API URL, e.g. `https://coresphere-api.onrender.com`.
+
+### D. Web on Vercel
+1. **Add New → Project**, import the repo. Vercel reads `vercel.json`
+   (build `npm run build -w web`, output `web/dist`, SPA rewrite).
+2. Set the environment variable **`VITE_API_BASE_URL`** to
+   `https://coresphere-api.onrender.com/api/v1` and deploy.
+3. Copy the Vercel URL back into Render's `CORS_ORIGINS`, then redeploy the API.
+
+### E. Seed & verify
+From your machine, seed the first admin against Atlas (temporarily set
+`MONGODB_URI` locally, or run Render's shell):
+
+```bash
+SEED_ADMIN_EMAIL=admin@your-domain.com SEED_ADMIN_PASSWORD='<strong>' npm run seed -w server
+```
+
+Then open the Vercel URL, sign in, and confirm login persists across a refresh
+(the cross-site refresh cookie is working). Render's free tier sleeps when idle —
+the first request after a pause can take ~50s.
+
+---
+
 ## 1. Prerequisites
 
 - Node.js ≥ 20 on the API host (or a container runtime)
