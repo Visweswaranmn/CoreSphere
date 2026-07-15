@@ -1,8 +1,6 @@
-import { Bell, LogOut, Menu, PanelLeftClose, PanelLeftOpen, UserRound } from 'lucide-react';
+import { LogOut, Menu, PanelLeftClose, PanelLeftOpen, UserRound } from 'lucide-react';
 import { ROLE_LABELS } from '@coresphere/shared';
 import { Avatar } from '@/components/ui/Avatar';
-import { Badge } from '@/components/ui/Badge';
-import { EmptyState } from '@/components/ui/EmptyState';
 import {
   DropdownItem,
   DropdownMenu,
@@ -10,6 +8,7 @@ import {
 } from '@/components/ui/DropdownMenu';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useAuth } from '@/features/auth/useAuth';
+import { NotificationBell } from '@/features/notifications/NotificationBell';
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -43,29 +42,7 @@ export function Topbar({ onMenuClick, onToggleCollapse, collapsed }: TopbarProps
       </div>
 
       <div className="flex items-center gap-1.5">
-        <DropdownMenu
-          trigger={
-            <span className="relative inline-flex rounded-lg p-2 text-muted-fg transition-colors hover:bg-surface-muted hover:text-foreground">
-              <Bell className="h-5 w-5" />
-              <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full border-2 border-surface bg-primary" />
-            </span>
-          }
-          className="w-80"
-        >
-          <div className="flex items-center justify-between px-2.5 py-2">
-            <p className="text-sm font-semibold text-foreground">Notifications</p>
-            <Badge tone="primary">New</Badge>
-          </div>
-          <DropdownSeparator />
-          <div className="p-2">
-            <EmptyState
-              icon={Bell}
-              title="You're all caught up"
-              description="Notifications will appear here."
-              className="border-0 py-8"
-            />
-          </div>
-        </DropdownMenu>
+        <NotificationBell />
 
         <ThemeToggle />
 

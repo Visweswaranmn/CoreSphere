@@ -14,3 +14,5 @@ export * from './domain/asset';
 export * from './domain/crm';
 export * from './domain/sales';
 export * from './domain/finance';
+export * from './domain/document';
+export * from './domain/notification';

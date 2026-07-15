@@ -68,6 +68,12 @@ const FinancePage = lazy(() =>
 const ExpenseDetailPage = lazy(() =>
   import('@/features/finance/ExpenseDetailPage').then((m) => ({ default: m.ExpenseDetailPage })),
 );
+const DocumentsPage = lazy(() =>
+  import('@/features/documents/DocumentsPage').then((m) => ({ default: m.DocumentsPage })),
+);
+const NotificationsPage = lazy(() =>
+  import('@/features/notifications/NotificationsPage').then((m) => ({ default: m.NotificationsPage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -131,6 +137,10 @@ export default function App() {
             <Route path="/finance" element={<FinancePage />} />
             <Route path="/finance/expenses/:id" element={<ExpenseDetailPage />} />
           </Route>
+
+          {/* Documents & Notifications (Phase 11) — all authenticated users. */}
+          <Route path="/documents" element={<DocumentsPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
 
           {modulePages.map((page) => {
             const element = (

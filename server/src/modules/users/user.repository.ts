@@ -27,4 +27,10 @@ export const userRepository = {
   create(attrs: Omit<UserAttrs, 'tokenVersion'> & { tokenVersion?: number }): Promise<UserHydrated> {
     return UserModel.create(attrs);
   },
+
+  /** Returns every user's id — used for broadcasting notifications. */
+  async findAllIds(): Promise<string[]> {
+    const docs = await UserModel.find().select('_id').exec();
+    return docs.map((doc) => String(doc._id));
+  },
 };

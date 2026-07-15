@@ -1,6 +1,7 @@
 import type { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
 import mongoose from 'mongoose';
+import { MulterError } from 'multer';
 import type { ApiFailure, ApiFieldError } from '@coresphere/shared';
 import { ApiError } from '../utils/ApiError';
 import { logger } from '../config/logger';
@@ -36,6 +37,12 @@ function normalize(err: unknown): NormalizedError {
 
   if (err instanceof mongoose.Error.CastError) {
     return { statusCode: 400, code: 'BAD_REQUEST', message: `Invalid value for '${err.path}'` };
+  }
+
+  if (err instanceof MulterError) {
+    const message =
+      err.code === 'LIMIT_FILE_SIZE' ? 'File exceeds the 10 MB limit' : 'File upload failed';
+    return { statusCode: 400, code: 'UPLOAD_ERROR', message };
   }
 
   // Duplicate key violation from MongoDB.

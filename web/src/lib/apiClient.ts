@@ -26,6 +26,7 @@ interface RequestOptions extends Omit<RequestInit, 'body'> {
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { body, headers, _isRetry, ...rest } = options;
   const token = getAccessToken();
+  const isFormData = body instanceof FormData;
 
   let response: Response;
   try {
@@ -34,11 +35,12 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
       credentials: 'include',
       headers: {
         Accept: 'application/json',
-        ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        // FormData sets its own multipart Content-Type (with boundary).
+        ...(body !== undefined && !isFormData ? { 'Content-Type': 'application/json' } : {}),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...headers,
       },
-      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+      ...(body !== undefined ? { body: isFormData ? body : JSON.stringify(body) } : {}),
     });
   } catch {
     throw new ApiClientError('Unable to reach the server', 'NETWORK_ERROR', 0);
