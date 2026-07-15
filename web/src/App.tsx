@@ -62,6 +62,12 @@ const CustomersPage = lazy(() =>
 const PipelinePage = lazy(() =>
   import('@/features/sales/PipelinePage').then((m) => ({ default: m.PipelinePage })),
 );
+const FinancePage = lazy(() =>
+  import('@/features/finance/FinancePage').then((m) => ({ default: m.FinancePage })),
+);
+const ExpenseDetailPage = lazy(() =>
+  import('@/features/finance/ExpenseDetailPage').then((m) => ({ default: m.ExpenseDetailPage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -118,6 +124,12 @@ export default function App() {
           <Route element={<RoleRoute allow={[Role.SalesManager]} />}>
             <Route path="/crm" element={<CustomersPage />} />
             <Route path="/sales" element={<PipelinePage />} />
+          </Route>
+
+          {/* Finance (Phase 10) — Finance Managers. */}
+          <Route element={<RoleRoute allow={[Role.FinanceManager]} />}>
+            <Route path="/finance" element={<FinancePage />} />
+            <Route path="/finance/expenses/:id" element={<ExpenseDetailPage />} />
           </Route>
 
           {modulePages.map((page) => {

@@ -1,6 +1,5 @@
 import {
   BarChart3,
-  Banknote,
   Bell,
   FileBarChart,
   FileText,
@@ -20,7 +19,6 @@ export interface ModulePage {
 
 /** Not-yet-built module routes. Kept in sync with the sidebar navigation. */
 export const modulePages: ModulePage[] = [
-  { path: '/finance', title: 'Finance', description: 'Accounts, expenses, and budgets.', icon: Banknote, phase: 'Phase 10', roles: [Roles.FinanceManager] },
   { path: '/documents', title: 'Documents', description: 'Centralized document management.', icon: FileText, phase: 'Phase 11', roles: [] },
   { path: '/notifications', title: 'Notifications', description: 'System and workflow notifications.', icon: Bell, phase: 'Phase 11', roles: [] },
   { path: '/reports', title: 'Reports', description: 'Operational and financial reporting.', icon: FileBarChart, phase: 'Phase 12', roles: [] },

@@ -10,6 +10,7 @@ import { procurementRouter } from '../modules/procurement/procurement.routes';
 import { inventoryRouter } from '../modules/inventory/inventory.routes';
 import { customerRouter } from '../modules/crm/customer.routes';
 import { dealRouter } from '../modules/sales/deal.routes';
+import { financeRouter } from '../modules/finance/finance.routes';
 
 /** Root API router. Feature modules mount their sub-routers here. */
 export const apiRouter: Router = Router();
@@ -25,3 +26,4 @@ apiRouter.use('/procurement', procurementRouter);
 apiRouter.use('/inventory', inventoryRouter);
 apiRouter.use('/crm/customers', customerRouter);
 apiRouter.use('/sales/deals', dealRouter);
+apiRouter.use('/finance', financeRouter);
