@@ -1,14 +1,15 @@
+import type { ActivityItem } from '@coresphere/shared';
 import { cn } from '@/lib/cn';
-import type { ActivityEntry } from './sampleData';
+import { formatRelativeTime } from '@/lib/format';
 
-const dotClasses: Record<ActivityEntry['tone'], string> = {
+const dotClasses: Record<ActivityItem['tone'], string> = {
   primary: 'bg-primary',
   success: 'bg-success',
   warning: 'bg-warning',
   info: 'bg-sky-500',
 };
 
-export function ActivityFeed({ entries }: { entries: ActivityEntry[] }) {
+export function ActivityFeed({ entries }: { entries: ActivityItem[] }) {
   return (
     <ul className="space-y-4">
       {entries.map((entry, index) => (
@@ -23,7 +24,7 @@ export function ActivityFeed({ entries }: { entries: ActivityEntry[] }) {
               <span className="text-muted-fg">{entry.action}</span>{' '}
               <span className="font-medium">{entry.target}</span>
             </p>
-            <p className="text-xs text-muted-fg">{entry.time}</p>
+            <p className="text-xs text-muted-fg">{formatRelativeTime(entry.timestamp)}</p>
           </div>
         </li>
       ))}

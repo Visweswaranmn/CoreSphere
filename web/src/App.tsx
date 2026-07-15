@@ -74,6 +74,12 @@ const DocumentsPage = lazy(() =>
 const NotificationsPage = lazy(() =>
   import('@/features/notifications/NotificationsPage').then((m) => ({ default: m.NotificationsPage })),
 );
+const AnalyticsPage = lazy(() =>
+  import('@/features/analytics/AnalyticsPage').then((m) => ({ default: m.AnalyticsPage })),
+);
+const ReportsPage = lazy(() =>
+  import('@/features/reports/ReportsPage').then((m) => ({ default: m.ReportsPage })),
+);
 
 /** Redirects already-authenticated users away from the login screen. */
 function LoginRoute() {
@@ -141,6 +147,10 @@ export default function App() {
           {/* Documents & Notifications (Phase 11) — all authenticated users. */}
           <Route path="/documents" element={<DocumentsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
+
+          {/* Reports & Analytics (Phase 12) — all authenticated users. */}
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
 
           {modulePages.map((page) => {
             const element = (

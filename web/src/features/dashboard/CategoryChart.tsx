@@ -1,6 +1,11 @@
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { formatCurrency } from '@/lib/format';
-import type { CategorySlice } from './sampleData';
+
+export interface CategorySlice {
+  name: string;
+  value: number;
+  color: string;
+}
 
 export function CategoryChart({ data }: { data: CategorySlice[] }) {
   const total = data.reduce((sum, slice) => sum + slice.value, 0);

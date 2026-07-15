@@ -8,8 +8,8 @@ import {
   YAxis,
   type TooltipProps,
 } from 'recharts';
+import type { MonthlyPoint } from '@coresphere/shared';
 import { formatCompactCurrency, formatCurrency } from '@/lib/format';
-import type { RevenuePoint } from './sampleData';
 
 const REVENUE_COLOR = '#4f46e5';
 const EXPENSE_COLOR = '#f59e0b';
@@ -30,7 +30,7 @@ function ChartTooltip({ active, payload, label }: TooltipProps<number, string>) 
   );
 }
 
-export function RevenueExpenseChart({ data }: { data: RevenuePoint[] }) {
+export function RevenueExpenseChart({ data }: { data: MonthlyPoint[] }) {
   return (
     <ResponsiveContainer width="100%" height={280}>
       <AreaChart data={data} margin={{ top: 10, right: 8, left: -8, bottom: 0 }}>

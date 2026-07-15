@@ -13,6 +13,8 @@ import { dealRouter } from '../modules/sales/deal.routes';
 import { financeRouter } from '../modules/finance/finance.routes';
 import { documentRouter } from '../modules/documents/document.routes';
 import { notificationRouter } from '../modules/notifications/notification.routes';
+import { analyticsRouter } from '../modules/analytics/analytics.routes';
+import { reportRouter } from '../modules/reports/report.routes';
 
 /** Root API router. Feature modules mount their sub-routers here. */
 export const apiRouter: Router = Router();
@@ -31,3 +33,5 @@ apiRouter.use('/sales/deals', dealRouter);
 apiRouter.use('/finance', financeRouter);
 apiRouter.use('/documents', documentRouter);
 apiRouter.use('/notifications', notificationRouter);
+apiRouter.use('/analytics', analyticsRouter);
+apiRouter.use('/reports', reportRouter);

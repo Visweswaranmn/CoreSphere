@@ -16,3 +16,5 @@ export * from './domain/sales';
 export * from './domain/finance';
 export * from './domain/document';
 export * from './domain/notification';
+export * from './domain/analytics';
+export * from './domain/report';
