@@ -16,8 +16,8 @@ const seedUsers: SeedUser[] = [
   {
     firstName: 'System',
     lastName: 'Administrator',
-    email: process.env.SEED_ADMIN_EMAIL ?? 'admin@coresphere.local',
-    password: process.env.SEED_ADMIN_PASSWORD ?? 'Admin@12345',
+    email: process.env.SEED_ADMIN_EMAIL ?? 'admin@gmail.com',
+    password: process.env.SEED_ADMIN_PASSWORD ?? '12345678',
     role: Role.SuperAdmin,
   },
   {

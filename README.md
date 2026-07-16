@@ -95,7 +95,8 @@ npm run dev
 ```
 
 Open http://localhost:5173 and sign in with the seeded Super Admin
-(`admin@coresphere.local` / `Admin@12345`).
+(`admin@gmail.com` / `12345678`). Override these with `SEED_ADMIN_EMAIL` /
+`SEED_ADMIN_PASSWORD` — and use a strong password in production.
 
 ### Optional: local database via Docker
 
