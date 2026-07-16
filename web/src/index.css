@@ -35,46 +35,47 @@
 }
 
 /*
- * Brand palette (Color Hunt): warm accent + cool blues.
- *   #F9E8A2 (accent) · #B4E1EB · #95BDD7 · #78A4CB (primary)
+ * Brand palette (Color Hunt): warm coral + cream with cool mint/blue.
+ *   #FFB6A6 (coral, primary) · #FFEBD3 (cream) · #9BCEC1 (mint) · #67A2C5 (blue, accent)
+ * Coral primary carries dark text for strong contrast; blue/mint are accents.
  * Status tones (success/warning/danger) stay semantic for legibility.
  */
 :root {
-  --app-accent: #f9e8a2;
+  --app-accent: #67a2c5;
 
-  --app-background: #f0f6fa;
+  --app-background: #fff8f1;
   --app-surface: #ffffff;
-  --app-surface-muted: #e6f1f6;
-  --app-foreground: #22384a;
-  --app-muted-fg: #5b7a8c;
-  --app-border: #d5e4ee;
-  --app-input: #cbdce8;
-  --app-ring: #78a4cb;
+  --app-surface-muted: #fdecdb;
+  --app-foreground: #33303a;
+  --app-muted-fg: #7a6f6a;
+  --app-border: #f1e0d0;
+  --app-input: #e7d6c6;
+  --app-ring: #67a2c5;
 
-  --app-primary: #4e7ba6;
-  --app-primary-fg: #ffffff;
-  --app-primary-hover: #3e6488;
+  --app-primary: #ffb6a6;
+  --app-primary-fg: #3a1f18;
+  --app-primary-hover: #ff9f8b;
 
   --app-success: #16a34a;
-  --app-warning: #b8860b;
+  --app-warning: #c2831c;
   --app-danger: #dc2626;
 }
 
 .dark {
-  --app-accent: #f9e8a2;
+  --app-accent: #67a2c5;
 
-  --app-background: #0e1b26;
-  --app-surface: #16242f;
-  --app-surface-muted: #1f3140;
-  --app-foreground: #e4edf2;
-  --app-muted-fg: #92aaba;
-  --app-border: #26394a;
-  --app-input: #2c4253;
-  --app-ring: #95bdd7;
+  --app-background: #201a18;
+  --app-surface: #2a2320;
+  --app-surface-muted: #352c28;
+  --app-foreground: #f4e9e0;
+  --app-muted-fg: #b8a99f;
+  --app-border: #3d322d;
+  --app-input: #453832;
+  --app-ring: #ffb6a6;
 
-  --app-primary: #95bdd7;
-  --app-primary-fg: #0e1b26;
-  --app-primary-hover: #a9cadf;
+  --app-primary: #ffb6a6;
+  --app-primary-fg: #201a18;
+  --app-primary-hover: #ffc7ba;
 
   --app-success: #22c55e;
   --app-warning: #eab308;
