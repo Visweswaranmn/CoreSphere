@@ -1,10 +1,20 @@
-import type { ApiResponse, AuthResult, AuthUser, LoginRequest } from '@coresphere/shared';
+import type {
+  ApiResponse,
+  AuthResult,
+  AuthUser,
+  LoginRequest,
+  SignupRequest,
+} from '@coresphere/shared';
 import { env } from '@/config/env';
 import { apiClient, ApiClientError } from '@/lib/apiClient';
 
 export const authApi = {
   login(credentials: LoginRequest): Promise<AuthResult> {
     return apiClient.post<AuthResult>('/auth/login', credentials);
+  },
+
+  signup(payload: SignupRequest): Promise<AuthResult> {
+    return apiClient.post<AuthResult>('/auth/signup', payload);
   },
 
   me(): Promise<AuthUser> {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import type { AuthUser, LoginRequest } from '@coresphere/shared';
+import type { AuthUser, LoginRequest, SignupRequest } from '@coresphere/shared';
 import { setAccessToken, setRefreshHandler } from '@/lib/authToken';
 import { queryClient } from '@/lib/queryClient';
 import { authApi } from './authApi';
@@ -66,6 +66,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [applySession],
   );
 
+  const signup = useCallback(
+    async (payload: SignupRequest) => {
+      const result = await authApi.signup(payload);
+      applySession(result.user, result.accessToken);
+    },
+    [applySession],
+  );
+
   const logout = useCallback(async () => {
     try {
       await authApi.logout();
@@ -76,8 +84,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [clearSession]);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ user, status, login, logout }),
-    [user, status, login, logout],
+    () => ({ user, status, login, signup, logout }),
+    [user, status, login, signup, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -7,6 +7,7 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
 import { RoleRoute } from '@/routes/RoleRoute';
 import { LoginPage } from '@/features/auth/LoginPage';
+import { RegisterPage } from '@/features/auth/RegisterPage';
 
 // Code-split heavy feature areas so they load on demand.
 const DashboardPage = lazy(() =>
@@ -90,10 +91,19 @@ function LoginRoute() {
   return <LoginPage />;
 }
 
+/** Redirects already-authenticated users away from the registration screen. */
+function RegisterRoute() {
+  const { status } = useAuth();
+  if (status === 'loading') return <FullPageLoader label="Restoring your session…" />;
+  if (status === 'authenticated') return <Navigate to="/" replace />;
+  return <RegisterPage />;
+}
+
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginRoute />} />
+      <Route path="/register" element={<RegisterRoute />} />
 
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>

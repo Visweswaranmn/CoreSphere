@@ -22,5 +22,9 @@ export const registerSchema = z.object({
   role: z.enum(ROLES as [string, ...string[]]),
 });
 
+/** Public self-service signup — no role field (the server assigns Employee). */
+export const signupSchema = registerSchema.omit({ role: true });
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type SignupInput = z.infer<typeof signupSchema>;

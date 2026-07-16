@@ -31,6 +31,14 @@ export interface RegisterRequest {
   role: Role;
 }
 
+/** Payload for public self-service registration. The role is fixed server-side. */
+export interface SignupRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 /** Successful authentication result: the user plus a short-lived access token. */
 export interface AuthResult {
   user: AuthUser;

@@ -1,35 +1,39 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useLocation, useNavigate, type Location } from 'react-router-dom';
-import { AlertCircle, Boxes, Lock, Mail } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AlertCircle, Boxes, Lock, Mail, User } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { TextField } from '@/components/ui/TextField';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { ApiClientError } from '@/lib/apiClient';
 import { useAuth } from './useAuth';
-import { loginFormSchema, type LoginFormValues } from './loginSchema';
+import { registerFormSchema, type RegisterFormValues } from './registerSchema';
 
-export function LoginPage() {
-  const { login } = useAuth();
+export function RegisterPage() {
+  const { signup } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation() as Location & { state?: { from?: string } };
   const [formError, setFormError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: { email: '', password: '' },
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' },
   });
 
   const onSubmit = handleSubmit(async (values) => {
     setFormError(null);
     try {
-      await login(values);
-      navigate(location.state?.from ?? '/', { replace: true });
+      await signup({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      });
+      navigate('/', { replace: true });
     } catch (error) {
       setFormError(
         error instanceof ApiClientError ? error.message : 'Something went wrong. Please try again.',
@@ -49,7 +53,7 @@ export function LoginPage() {
             <Boxes className="h-6 w-6" />
             <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-accent ring-2 ring-background" />
           </span>
-          <h1 className="text-xl font-semibold text-foreground">Sign in to CoreSphere</h1>
+          <h1 className="text-xl font-semibold text-foreground">Create your CoreSphere account</h1>
           <p className="mt-1 text-sm text-muted-fg">Enterprise Resource Planning</p>
         </div>
 
@@ -68,6 +72,24 @@ export function LoginPage() {
             </div>
           )}
 
+          <div className="grid grid-cols-2 gap-3">
+            <TextField
+              label="First name"
+              autoComplete="given-name"
+              placeholder="Ada"
+              leadingIcon={<User className="h-4 w-4" />}
+              error={errors.firstName?.message}
+              {...register('firstName')}
+            />
+            <TextField
+              label="Last name"
+              autoComplete="family-name"
+              placeholder="Lovelace"
+              error={errors.lastName?.message}
+              {...register('lastName')}
+            />
+          </div>
+
           <TextField
             label="Email"
             type="email"
@@ -81,22 +103,32 @@ export function LoginPage() {
           <TextField
             label="Password"
             type="password"
-            autoComplete="current-password"
-            placeholder="••••••••"
+            autoComplete="new-password"
+            placeholder="At least 8 characters"
             leadingIcon={<Lock className="h-4 w-4" />}
             error={errors.password?.message}
             {...register('password')}
           />
 
+          <TextField
+            label="Confirm password"
+            type="password"
+            autoComplete="new-password"
+            placeholder="Re-enter your password"
+            leadingIcon={<Lock className="h-4 w-4" />}
+            error={errors.confirmPassword?.message}
+            {...register('confirmPassword')}
+          />
+
           <Button type="submit" fullWidth isLoading={isSubmitting}>
-            Sign in
+            Create account
           </Button>
         </form>
 
         <p className="mt-6 text-center text-sm text-muted-fg">
-          Don&apos;t have an account?{' '}
-          <Link to="/register" className="font-medium text-primary hover:underline">
-            Create one
+          Already have an account?{' '}
+          <Link to="/login" className="font-medium text-primary hover:underline">
+            Sign in
           </Link>
         </p>
       </div>

@@ -1,11 +1,11 @@
-import type { AuthResult, AuthUser } from '@coresphere/shared';
+import { Role, type AuthResult, type AuthUser } from '@coresphere/shared';
 import { userRepository } from '../users/user.repository';
 import { userService } from '../users/user.service';
 import { toAuthUser, type UserHydrated } from '../users/user.model';
 import { verifyPassword } from '../../utils/password';
 import { signAccessToken, signRefreshToken } from '../../utils/jwt';
 import { ApiError } from '../../utils/ApiError';
-import type { RegisterInput } from './auth.schemas';
+import type { RegisterInput, SignupInput } from './auth.schemas';
 
 /** Bundles the access token (for the body) and refresh token (for the cookie). */
 export interface IssuedSession extends AuthResult {
@@ -43,6 +43,21 @@ export const authService = {
   /** Provisions a new user account (Super Admin action). Does not sign them in. */
   register(input: RegisterInput): Promise<AuthUser> {
     return userService.create(input);
+  },
+
+  /**
+   * Public self-service registration. Always creates the lowest-privilege
+   * Employee role (never trusts a client-supplied role) and signs the new
+   * user in immediately.
+   */
+  async signup(input: SignupInput): Promise<IssuedSession> {
+    const created = await userService.create({ ...input, role: Role.Employee });
+    const user = await userRepository.findById(created.id);
+    if (!user) {
+      // The account was just created, so this should never happen.
+      throw ApiError.internal('Failed to load the new account');
+    }
+    return issueSession(user);
   },
 
   /** Rotates the session: validates the refresh token and issues fresh tokens. */

@@ -6,7 +6,7 @@ import { ApiError } from '../../utils/ApiError';
 import { verifyRefreshToken } from '../../utils/jwt';
 import { clearRefreshCookie, REFRESH_COOKIE_NAME, setRefreshCookie } from '../../utils/cookies';
 import { authService } from './auth.service';
-import type { LoginInput, RegisterInput } from './auth.schemas';
+import type { LoginInput, RegisterInput, SignupInput } from './auth.schemas';
 
 function readRefreshCookie(req: Request): string | undefined {
   return (req.cookies as Record<string, string | undefined>)[REFRESH_COOKIE_NAME];
@@ -24,6 +24,13 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const user = await authService.register(req.body as RegisterInput);
   return sendSuccess(res, user, 201, 'User created successfully');
+});
+
+/** POST /auth/signup — public self-service registration; signs the user in. */
+export const signup = asyncHandler(async (req: Request, res: Response) => {
+  const { refreshToken, ...result } = await authService.signup(req.body as SignupInput);
+  setRefreshCookie(res, refreshToken);
+  return sendSuccess<AuthResult>(res, result, 201, 'Account created successfully');
 });
 
 /** POST /auth/refresh — rotate tokens using the refresh cookie. */
