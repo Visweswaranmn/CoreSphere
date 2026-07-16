@@ -6,7 +6,10 @@ services:
     runtime: node
     plan: free
     rootDir: .
-    buildCommand: npm ci && npm run build -w server
+    # NODE_ENV=production (set below) makes npm omit devDependencies, but the
+    # build tool (tsup) and typescript live there — force them with --include=dev,
+    # else the build fails with "tsup: not found" (exit 127).
+    buildCommand: npm ci --include=dev && npm run build -w server
     startCommand: node server/dist/server.js
     healthCheckPath: /api/v1/health
     autoDeploy: true
