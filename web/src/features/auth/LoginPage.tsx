@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useLocation, useNavigate, type Location } from 'react-router-dom';
-import { AlertCircle, Boxes, Lock, Mail } from 'lucide-react';
+import { AlertCircle, Boxes, Loader2, Lock, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { TextField } from '@/components/ui/TextField';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { ApiClientError } from '@/lib/apiClient';
+import { withColdStartRetry } from '@/lib/coldStart';
 import { useAuth } from './useAuth';
 import { loginFormSchema, type LoginFormValues } from './loginSchema';
 
@@ -15,6 +16,7 @@ export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation() as Location & { state?: { from?: string } };
   const [formError, setFormError] = useState<string | null>(null);
+  const [waking, setWaking] = useState(false);
 
   const {
     register,
@@ -27,13 +29,19 @@ export function LoginPage() {
 
   const onSubmit = handleSubmit(async (values) => {
     setFormError(null);
+    setWaking(false);
+    // A sleeping free-tier server also just responds slowly, so hint after 3s.
+    const slowTimer = window.setTimeout(() => setWaking(true), 3000);
     try {
-      await login(values);
+      await withColdStartRetry(() => login(values), () => setWaking(true));
       navigate(location.state?.from ?? '/', { replace: true });
     } catch (error) {
       setFormError(
         error instanceof ApiClientError ? error.message : 'Something went wrong. Please try again.',
       );
+    } finally {
+      window.clearTimeout(slowTimer);
+      setWaking(false);
     }
   });
 
@@ -65,6 +73,16 @@ export function LoginPage() {
             >
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{formError}</span>
+            </div>
+          )}
+
+          {waking && !formError && (
+            <div
+              role="status"
+              className="flex items-start gap-2 rounded-lg bg-primary/10 p-3 text-sm text-foreground"
+            >
+              <Loader2 className="mt-0.5 h-4 w-4 shrink-0 animate-spin text-primary" />
+              <span>Waking up the server — this can take up to a minute on the first visit.</span>
             </div>
           )}
 
