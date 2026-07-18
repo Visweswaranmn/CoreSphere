@@ -11,6 +11,10 @@ import { withColdStartRetry } from '@/lib/coldStart';
 import { useAuth } from './useAuth';
 import { loginFormSchema, type LoginFormValues } from './loginSchema';
 
+// Public demo credentials, so a visitor (e.g. a recruiter) can look around.
+const DEMO_EMAIL = 'admin@gmail.com';
+const DEMO_PASSWORD = '12345678';
+
 export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -21,13 +25,14 @@ export function LoginPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = handleSubmit(async (values) => {
+  const submit = async (values: LoginFormValues) => {
     setFormError(null);
     setWaking(false);
     // A sleeping free-tier server also just responds slowly, so hint after 3s.
@@ -43,7 +48,16 @@ export function LoginPage() {
       window.clearTimeout(slowTimer);
       setWaking(false);
     }
-  });
+  };
+
+  const onSubmit = handleSubmit(submit);
+
+  // Fill the demo credentials into the form (so they're visible) and sign in.
+  const onDemoLogin = () => {
+    setValue('email', DEMO_EMAIL, { shouldValidate: true });
+    setValue('password', DEMO_PASSWORD, { shouldValidate: true });
+    void submit({ email: DEMO_EMAIL, password: DEMO_PASSWORD });
+  };
 
   return (
     <div className="flex min-h-full items-center justify-center bg-background px-4 py-12">
@@ -109,6 +123,23 @@ export function LoginPage() {
           <Button type="submit" fullWidth isLoading={isSubmitting}>
             Sign in
           </Button>
+
+          <div className="space-y-2 border-t border-border pt-4">
+            <Button
+              type="button"
+              variant="secondary"
+              fullWidth
+              onClick={onDemoLogin}
+              disabled={isSubmitting}
+            >
+              Explore the demo
+            </Button>
+            <p className="text-center text-xs text-muted-fg">
+              Signs you in as{' '}
+              <span className="font-medium text-foreground">{DEMO_EMAIL}</span> · password{' '}
+              <span className="font-medium text-foreground">{DEMO_PASSWORD}</span>
+            </p>
+          </div>
         </form>
 
         <p className="mt-6 text-center text-sm text-muted-fg">
