@@ -1,0 +1,42 @@
+name: Keep API warm
+
+# Pings the Render API on a schedule so the free-tier instance doesn't spin
+# down after 15 minutes of inactivity. Keeping it running also keeps its
+# MongoDB Atlas connection active, which avoids the free-cluster 60-day pause.
+#
+# Note: GitHub disables scheduled workflows after 60 days with no repo activity.
+# For a hands-off resume demo, also add an external pinger (e.g. UptimeRobot)
+# as a durable backup.
+
+on:
+  schedule:
+    # Every 10 minutes (best-effort — GitHub may delay scheduled runs).
+    - cron: '*/10 * * * *'
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch: {}
+
+# Don't stack runs if one is slow while the instance cold-starts.
+concurrency:
+  group: keep-warm
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API health endpoint
+        run: |
+          URL="https://coresphere-api-wac3.onrender.com/api/v1/health"
+          echo "Pinging $URL"
+          # Retry to allow for a cold-start wake-up (~30-50s on the free tier).
+          for attempt in 1 2 3 4 5 6; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 60 "$URL" || echo 000)
+            echo "attempt $attempt -> HTTP $code"
+            if [ "$code" = "200" ]; then
+              echo "API is awake."
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "API did not return 200 after retries — it may be down."
+          exit 1
